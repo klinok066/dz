@@ -1,0 +1,75 @@
+package com.company;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Scanner;
+
+class User{
+    final String name;
+    HashMap listOfProduct = new HashMap();
+
+    User(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return name + ":";
+    }
+
+    void productAdd(String product, int count){
+        if(listOfProduct.containsKey(product)){
+            int alreadyBuy = (int) listOfProduct.get(product);
+            alreadyBuy += count;
+            listOfProduct.replace(product, alreadyBuy);
+        }else{
+
+            listOfProduct.put(product, count);
+
+        }
+    }
+
+
+}
+
+
+    public class Main {
+
+
+    public static void main(String[] args) {
+
+        HashMap<String, User> userList = new HashMap<>();
+        ArrayList<String> userNames = new ArrayList<>();
+        Scanner sc = new Scanner(System.in);
+
+        String str = "1 0 0 ";
+
+        while (!str.isEmpty()){
+            str = sc.nextLine();
+            String name = str.split(" ")[0];
+            String product = str.split(" ")[1];
+            int count = Integer.parseInt(str.split(" ")[2]);
+
+            if (!userList.containsKey(name)) {
+                userList.put(name, new User(name));
+                userNames.add(name);
+            }
+            User userNow = userList.get(name);
+            userNow.productAdd(product, count);
+            userList.put(name, userNow);
+
+            str = sc.nextLine();
+        }
+
+        for(int i =0; i<userNames.size(); i++){
+            User user = userList.get(userNames.get(i));
+
+
+            System.out.println(user.toString());
+            System.out.println(user.listOfProduct);
+
+        }
+
+    }
+
+}
